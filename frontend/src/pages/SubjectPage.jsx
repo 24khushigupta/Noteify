@@ -45,7 +45,7 @@ export default function SubjectPage() {
             </p>
 
             <a
-              href={`http://localhost:5000${note.fileUrl}`}
+              href={`https://noteify-bvnp.onrender.com${note.fileUrl}`}
               target="_blank"
               rel="noreferrer"
             >
