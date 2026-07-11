@@ -1,0 +1,74 @@
+/* Dashboard.css */
+
+.add-note {
+  max-width: 480px;
+  margin: 48px auto;
+  background: #ffffff;
+  border: 1px solid rgba(27, 42, 74, 0.14);
+  border-radius: 10px;
+  padding: 28px;
+  font-family: "IBM Plex Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.add-note h2 {
+  font-family: "Source Serif 4", serif;
+  color: #1b2a4a;
+  margin: 0 0 4px;
+}
+
+.add-note label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #7c8aa5;
+  flex: 1;
+}
+
+.add-note input,
+.add-note select {
+  border: 1px solid rgba(27, 42, 74, 0.14);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #22262e;
+}
+
+.add-note .row {
+  display: flex;
+  gap: 12px;
+}
+
+.add-note button {
+  background: #1b2a4a;
+  color: #faf9f6;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.add-note button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.add-note .msg {
+  font-size: 13px;
+  margin: 0;
+}
+
+.add-note .msg.success {
+  color: #3e7c74;
+}
+
+.add-note .msg.error {
+  color: #a32d2d;
+}

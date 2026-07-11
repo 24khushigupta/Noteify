@@ -1,0 +1,59 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import API from "../services/api";
+
+export default function SubjectPage() {
+  const { code } = useParams();
+
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    API.get(`/notes/${code}`)
+      .then((res) => {
+        setNotes(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [code]);
+
+  return (
+    <div style={{ padding: "40px" }}>
+      <h1>Subject Code: {code}</h1>
+
+      {notes.length === 0 ? (
+        <h3>No notes uploaded for this subject.</h3>
+      ) : (
+        notes.map((note) => (
+          <div
+            key={note._id}
+            style={{
+              border: "1px solid #ddd",
+              padding: "15px",
+              marginBottom: "15px",
+              borderRadius: "8px",
+            }}
+          >
+            <h2>{note.title}</h2>
+
+            <p>
+              <strong>Subject:</strong> {note.subjectName}
+            </p>
+
+            <p>
+              <strong>Semester:</strong> {note.semester}
+            </p>
+
+            <a
+              href={`http://localhost:5000${note.fileUrl}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              📄 View PDF
+            </a>
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
