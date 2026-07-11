@@ -138,3 +138,4 @@ This project is licensed under the MIT License.
 * MCA Student
 * Full Stack Web Developer
 * GitHub: https://github.com/24khushigupta
+* vercel link:https://noteify-smoky-two.vercel.app/
