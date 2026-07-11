@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
@@ -33,26 +33,30 @@ const STEPS = [
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const [activeSem, setActiveSem] = useState();
+  const [activeSem, setActiveSem] = useState(1);
+  const [input, setInput] = useState("");
   const [query, setQuery] = useState("");
-const [subjects, setSubjects] = useState([]);
-useEffect(() => {
-  API.get("/notes/subjects/all")
-    .then((res) => {
-      setSubjects(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}, []);
+  const [subjects, setSubjects] = useState([]);
+  useEffect(() => {
+    API.get("/notes/subjects/all")
+      .then((res) => {
+        setSubjects(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const filtered = subjects.filter((s) => {
-    const matchesSem = s.sem === activeSem;
-    const matchesQuery =
-      query.trim() === "" ||
-      s.name.toLowerCase().includes(query.toLowerCase()) ||
-      s.code.toLowerCase().includes(query.toLowerCase());
-    return matchesSem && matchesQuery;
-  });
+  const matchesSem =
+    activeSem === null || s.sem === activeSem;
+
+  const matchesQuery =
+    query.trim() === "" ||
+    s.name.toLowerCase().includes(query.toLowerCase()) ||
+    s.code.toLowerCase().includes(query.toLowerCase());
+
+  return matchesSem && matchesQuery;
+});
 
   return (
     <div className="home">
@@ -91,11 +95,16 @@ useEffect(() => {
             <input
               type="text"
               placeholder="Search a subject or code, e.g. DBMS or MCA402"
-              value={query}
+              value={input}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setQuery(input);
+                }
+              }}
               aria-label="Search subjects"
             />
-            <button type="button">Search</button>
+            <button onClick={() => setQuery(input)} type="button">Search</button>
           </div>
 
           <div className="tab-strip" role="tablist" aria-label="Select semester">
