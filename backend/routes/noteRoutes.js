@@ -96,7 +96,7 @@ router.post("/", upload.single("file"), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: "A PDF file is required" });
     }
-
+    console.log(req.file);
     const note = await Note.create({
       title,
       subjectCode,
