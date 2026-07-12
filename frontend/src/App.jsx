@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import HomePage from "./pages/HomePage" ;
 import SubjectPage from "./pages/SubjectPage";
+import PdfViewer from "./pages/PdfViewer";
 function App() {
   return (
     <>
@@ -13,7 +14,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/subject/:code" element={<SubjectPage />} />
+        <Route path="/subject/:code" element={<SubjectPage />}/>
+        <Route path="/viewer" element={<PdfViewer />} />
+      
+        
       </Routes>
     </BrowserRouter>
     </>

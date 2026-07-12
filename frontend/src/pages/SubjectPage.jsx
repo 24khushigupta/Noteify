@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import API from "../services/api";
-
+import { Link } from "react-router-dom";
 export default function SubjectPage() {
   const { code } = useParams();
 
@@ -45,12 +45,15 @@ export default function SubjectPage() {
             </p>
             <p>{note.fileUrl}</p>
             console.log(note);
-            <a
-              href={note.fileUrl.replace("/upload/", "/upload/fl_attachment:false/")}
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              to="/viewer"
+               state={{ fileUrl: note.fileUrl }}
+              style={{ marginRight: "15px" }}
             >
               📄 View PDF
+            </Link>
+            <a href={note.fileUrl} download={note.fileName}>
+              ⬇ Download
             </a>
           </div>
         ))
