@@ -95,13 +95,13 @@ router.post("/", upload.single("file"), async (req, res) => {
         error: "A PDF file is required",
       });
     }
-
+    const fileName = `${Date.now()}.pdf`;
     const uploadResult = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
           folder: "Noteify",
           resource_type: "raw",
-          public_id: Date.now().toString(),
+          public_id: fileName,
         },
         (error, result) => {
           if (error) return reject(error);
