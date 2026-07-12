@@ -43,7 +43,7 @@ export default function SubjectPage() {
             <p>
               <strong>Semester:</strong> {note.semester}
             </p>
-           
+            
             <Link
               to="/viewer"
                state={{ fileUrl: note.fileUrl }}

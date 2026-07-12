@@ -96,7 +96,7 @@ export default function HomePage() {
               type="text"
               placeholder="Search a subject or code, e.g. DBMS or MCA402"
               value={input}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   setQuery(input);
