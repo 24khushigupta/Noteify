@@ -13,7 +13,8 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "Noteify",
     resource_type: "raw", // PDF upload ke liye
-    allowed_formats: ["pdf"],
+     public_id: Date.now().toString(),
+    allowed_formats: "pdf",
   },
 });
 

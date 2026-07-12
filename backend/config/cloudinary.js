@@ -6,13 +6,5 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: async (req, file) => ({
-    folder: "Noteify",
-    resource_type: "raw",
-    public_id: Date.now().toString(),
-    format: "pdf",
-  }),
-});
+
 module.exports = cloudinary;
