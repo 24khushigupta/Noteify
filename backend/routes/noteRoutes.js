@@ -89,6 +89,7 @@ router.get("/:code", async (req, res) => {
 // POST /api/notes  - upload a new note
 router.post("/", upload.single("file"), async (req, res) => {
   try {
+     console.log("REQ.FILE =", req.file);
     const { title, subjectCode, subjectName, course, semester } = req.body;
 
     if (!req.file) {
