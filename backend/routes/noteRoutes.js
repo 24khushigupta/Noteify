@@ -10,12 +10,12 @@ const router = express.Router();
 // where uploaded PDFs get saved on disk, and how they're named
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: async (req,files)=>({
+  params: {
     folder: "Noteify",
     resource_type: "raw", // PDF upload ke liye
-     public_id:()=> Date.now().toString(),
-    formats: "pdf",
-  }),
+   //  public_id:()=> Date.now().toString(),
+   // formats: "pdf",
+  },
 });
 
 // only accept PDFs, cap size at 15mb
@@ -59,6 +59,9 @@ router.get("/subjects/all", async (req, res) => {
 
     res.json(subjects);
   } catch (err) {
+     console.error("UPLOAD ERROR:");
+  console.error(err);
+
     res.status(500).json({ error: err.message });
   }
 });
@@ -96,7 +99,7 @@ router.post("/", upload.single("file"), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: "A PDF file is required" });
     }
-   
+   console.dir(req.file, { depth: null });
     const note = await Note.create({
       title,
       subjectCode,
