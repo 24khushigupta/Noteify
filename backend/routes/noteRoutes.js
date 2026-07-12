@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const path = require("path");
+
 const Note = require("../models/Note");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("../config/cloudinary");
@@ -8,20 +8,13 @@ const cloudinary = require("../config/cloudinary");
 const router = express.Router();
 
 // where uploaded PDFs get saved on disk, and how they're named
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "Noteify",
-    resource_type: "raw", // PDF upload ke liye
-   //  public_id:()=> Date.now().toString(),
-   // formats: "pdf",
-  },
-});
+const storage = multer.memoryStorage();
 
-// only accept PDFs, cap size at 15mb
 const upload = multer({
   storage,
-  limits: { fileSize: 15 * 1024 * 1024 },
+  limits: {
+    fileSize: 15 * 1024 * 1024,
+  },
   fileFilter: (req, file, cb) => {
     if (file.mimetype !== "application/pdf") {
       return cb(new Error("Only PDF files are allowed"));
@@ -29,6 +22,8 @@ const upload = multer({
     cb(null, true);
   },
 });
+
+
 
 
 // GET /api/notes/subjects
@@ -93,26 +88,46 @@ router.get("/:code", async (req, res) => {
 // POST /api/notes  - upload a new note
 router.post("/", upload.single("file"), async (req, res) => {
   try {
-     console.log("REQ.FILE =", req.file);
     const { title, subjectCode, subjectName, course, semester } = req.body;
 
     if (!req.file) {
-      return res.status(400).json({ error: "A PDF file is required" });
+      return res.status(400).json({
+        error: "A PDF file is required",
+      });
     }
-   console.dir(req.file, { depth: null });
+
+    const uploadResult = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          folder: "Noteify",
+          resource_type: "raw",
+          public_id: Date.now().toString(),
+        },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+
+      stream.end(req.file.buffer);
+    });
+
     const note = await Note.create({
       title,
       subjectCode,
       subjectName,
       course,
       semester: Number(semester),
-      fileUrl: req.file.path,
+      fileUrl: uploadResult.secure_url,
       fileName: req.file.originalname,
     });
 
     res.status(201).json(note);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({
+      error: err.message,
+    });
   }
 });
 // DELETE /api/notes/:id
