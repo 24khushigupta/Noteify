@@ -24,11 +24,14 @@ export default function PdfViewer() {
       <h2>PDF Viewer</h2>
 
       <Document
-        file={fileUrl}
-        onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-      >
-        <Page pageNumber={pageNumber} />
-      </Document>
+  file={fileUrl}
+  onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+  onLoadError={(error) => {
+    console.error("PDF Load Error:", error);
+  }}
+>
+  <Page pageNumber={pageNumber} />
+</Document>
 
       <br />
 
