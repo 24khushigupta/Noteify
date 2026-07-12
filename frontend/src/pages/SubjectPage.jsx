@@ -46,7 +46,7 @@ export default function SubjectPage() {
             <p>{note.fileUrl}</p>
             console.log(note);
             <a
-              href={note.fileUrl}
+              href={note.fileUrl.replace("/upload/", "/upload/fl_attachment:false/")}
               target="_blank"
               rel="noreferrer"
             >
