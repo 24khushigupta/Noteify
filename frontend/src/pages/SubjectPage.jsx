@@ -43,7 +43,8 @@ export default function SubjectPage() {
             <p>
               <strong>Semester:</strong> {note.semester}
             </p>
-
+            <p>{note.fileUrl}</p>
+            console.log(note);
             <a
               href={`https://noteify-bvnp.onrender.com${note.fileUrl}`}
               target="_blank"

@@ -2,17 +2,18 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const Note = require("../models/Note");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../config/cloudinary");
 
 const router = express.Router();
 
 // where uploaded PDFs get saved on disk, and how they're named
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads"));
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "Noteify",
+    resource_type: "raw", // PDF upload ke liye
+    allowed_formats: ["pdf"],
   },
 });
 
@@ -100,7 +101,7 @@ router.post("/", upload.single("file"), async (req, res) => {
       subjectName,
       course,
       semester: Number(semester),
-      fileUrl: `/uploads/${req.file.filename}`,
+      fileUrl: req.file.path,
       fileName: req.file.originalname,
     });
 
