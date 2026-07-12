@@ -54,8 +54,8 @@ router.get("/subjects/all", async (req, res) => {
 
     res.json(subjects);
   } catch (err) {
-     console.error("UPLOAD ERROR:");
-  console.error(err);
+    console.error("UPLOAD ERROR:");
+    console.error(err);
 
     res.status(500).json({ error: err.message });
   }
@@ -73,7 +73,7 @@ router.get("/", async (req, res) => {
 // GET /api/notes?course=MCA&semester=4  - list notes, optionally filtered
 router.get("/:code", async (req, res) => {
   try {
-     const notes = await Note.find({
+    const notes = await Note.find({
       subjectCode: {
         $regex: `^${req.params.code}$`,
         $options: "i", // ignore uppercase/lowercase
@@ -101,7 +101,10 @@ router.post("/", upload.single("file"), async (req, res) => {
         {
           folder: "Noteify",
           resource_type: "raw",
-          public_id: fileName,
+          use_filename: true,
+          unique_filename: true,
+          filename_override: req.file.originalname,
+         
         },
         (error, result) => {
           if (error) return reject(error);
@@ -111,6 +114,8 @@ router.post("/", upload.single("file"), async (req, res) => {
 
       stream.end(req.file.buffer);
     });
+    console.log("UPLOAD RESULT:");
+console.log(uploadResult);
 
     const note = await Note.create({
       title,
